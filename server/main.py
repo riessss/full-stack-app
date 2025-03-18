@@ -5,7 +5,7 @@ from models import Contact
 @app.route('/contacts', methods=['GET'])
 def get_contacts():
     contacts = Contact.query.all()
-    json_contacts = list(map(lambda x: x.ro_json(), contacts))
+    json_contacts = list(map(lambda x: x.to_json(), contacts))
     return jsonify({'contacts': json_contacts})
 
 
@@ -24,10 +24,10 @@ def create_contact():
     try:
         db.session.add(new_contact)
         db.session.commit()
-    except Exeption as e:
-        return jsonify({'message': stre(e)}), 400
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
     
-    return jsonify({'message', 'User created!'}), 201
+    return jsonify({'message': 'User created!'}), 201
 
 
 @app.route('/update_contact/<int:user_id>', methods=['PATCH'])
